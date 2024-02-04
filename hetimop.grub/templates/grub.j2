@@ -1,0 +1,13 @@
+# This file is managed by Ansible. Manual changes may be overwritten.
+# If you change this file, run 'update-grub' afterwards to update
+# /boot/grub/grub.cfg.
+# For full documentation of the options in this file, see:
+#   info -f grub -n 'Simple configuration'
+
+{% for option in hetimop_grub_options %}
+{% if option.commented %}
+# {{ option.name }}={{ option.value }}
+{% else %}
+{{ option.name }}={{ option.value }}
+{% endif %}
+{% endfor %}

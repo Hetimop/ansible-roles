@@ -1,0 +1,29 @@
+---
+# tasks file for hetimop.grub
+
+
+# - name: Add lines to grub file
+#   lineinfile:
+#     path: /etc/default/grub
+#     line: "{{ item }}"
+#     insertafter: EOF
+#     state: present
+#   with_items: "{{ hetimop_grub_add_lines }}"
+#   notify: Update grub
+
+# - name: Remove lines from grub file
+#   lineinfile:
+#     path: /etc/default/grub
+#     regexp: "^{{ item }}=.*$"
+#     state: absent
+#   with_items: "{{ hetimop_grub_remove_lines }}"
+#   notify: Update grub
+
+
+
+- name: Générer le fichier Grub
+  template:
+    src: grub.j2
+    dest: /etc/default/grub
+  notify: Update grub
+

@@ -1,0 +1,31 @@
+# handlers file for hetimop.grub
+
+- name: Update grub
+  command: update-grub
+  async: 300
+  poll: 0
+  notify: 
+    - "Afficher le prompt de redémarrage"
+    - "Reboot server"
+
+- name: "Afficher le prompt de redémarrage"
+  pause:
+    prompt: "Le serveur doit être redémarré, voulez-vous le faire maintenant ? (yes/no)"
+  register: reboot_prompt
+
+- name: "Reboot server"
+  reboot:
+    reboot_timeout: 600
+  when: reboot_prompt.user_input | lower == 'yes'
+  notify: 
+    - "Get UPTIME"
+    - "Afficher la date de redémarrage"
+
+- name: "Get UPTIME"
+  command: uptime
+  register: uptime_output
+
+
+- name: "Afficher la date de redémarrage"
+  debug:
+    msg: "Uptime du serveur : {{ uptime_output.stdout }}"
